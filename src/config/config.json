@@ -2,8 +2,9 @@
   "development": {
     "username": "root",
     "password": "Admin@123",
-    "database": "flight",
+    "database": "Flights",
     "host": "127.0.0.1",
+    "port": 3310,
     "dialect": "mysql"
   },
   "test": {
