@@ -21,6 +21,7 @@ This project includes the following features:
 Make sure you have the following installed before setting up the project:
 
 - **Node.js** (v14 or higher)
+- **npm** (Node Package Manager) for managing dependencies
 - **MySQL** (or any SQL dialect supported by Sequelize)
 
 ### Additional Tools
@@ -40,11 +41,15 @@ src/
 │
 ├── config/         # Handles third-party configuration (e.g., dotenv, Sequelize, logging)
 ├── routes/         # Maps endpoints (URLs) to controllers via Express routers
+├── migrations/     # Database schema definitions and version control
+├── models/         # Sequelize models representing database tables
+├── seeders/        # Predefined data to populate the database
 ├── middlewares/    # Functions that run before controllers (e.g., validation, auth checks)
 ├── controllers/    # Request handlers - extract data, call service, return response
 ├── repositories/   # Direct DB access logic (raw SQL or ORM queries)
 ├── services/       # Main business logic (e.g., pricing calculation, seat availability)
 └── utils/          # Shared utility functions (e.g., error formatting, helpers)
+
 ```
 
 ## 🚀 Project Setup
@@ -54,8 +59,8 @@ Follow the steps below to set up and run the project locally:
 ### 1. Clone and Install Dependencies
 
 ```bash
-git clone <your_repo_url>
-cd <repo_name>
+git clone https://github.com/ZBS-1910/Flight-Booking_Service.git
+cd Flights-Service-master
 npm install
 ```
 
@@ -77,8 +82,8 @@ Inside `src/config`, create a file named `config.json` and add:
 {
   "development": {
     "username": "root",
-    "password": null,
-    "database": "database_development",
+    "password": null,// mySQL_password
+    "database": "database_development",//mySQL_DB_NAME
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
@@ -139,13 +144,8 @@ Server started at PORT 4000
 
 Visit `http://localhost:4000` (or your selected port) to start using the API.
 
----
+## 👤 Author
 
-Let me know if you want this as a downloadable `.md` file, or if you'd like to add:
-
-- API documentation with Swagger/Postman
-- Sample API responses
-- Authentication flow details
-- Contribution guidelines
-
-I'm happy to help you make it more production-ready!
+- **Name**: Zameer Basha S 
+- **GitHub**: [ZBS-1910](https://github.com/ZBS-1910)  
+- **Email**: zameer1910basha@gmail.com 
