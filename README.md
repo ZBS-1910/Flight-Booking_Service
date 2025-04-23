@@ -1,47 +1,79 @@
-This is a base node project template, which anyone can use as it has been prepared, by keeping some of the most important code principles and project management recomendations. Feel free to change anything.
+# ✈️ Flight Booking Service
 
-`src` ->i Inside the src folder all the actuat source code regarding the project will reside, this will not include any kind of tests. (You might want to make separate tests folder)
+## 🛫 Description
 
-Lets take a took inside the `src` folder
-`config` -> In this folder anything  and everything regarding any configurations of setup of a library or module will be done. For example: setting up `dotenv`.
-so that we can use the environment variables anywhere in a cleaner fashion, this is done in the `server-config.js`.
+The Flight Booking Service is a backend application designed to manage flight reservations efficiently. It provides a robust API for handling operations such as searching for flights, booking tickets, and managing user data. Built with scalability and maintainability in mind, this service is ideal for integration into larger airline or travel management systems. Its modular design ensures ease of development and future enhancements.
 
-One more example can be to setup you logging library that can help you to prepare meaningful logs, so configuration for this library should also be done here.
+## ✅ Features
 
-`routes` -> In the routes folder, we register a route and the corresponding middleware and controllers to it.
+This project includes the following features:
 
-`middlewares` —> they are just going to intercept the incoming requests where we can write our validators, authenticators etc.
+- **RESTful API**: Follows standard API practices using HTTP methods for resources (flights, bookings, etc.).
+- **Modular Structure**: Clean folder architecture for scalability and maintainability.
+- **Environment-based Configuration**: Uses `.env` and `config.json` for different environments (dev, test, prod).
+- **Database Integration**: Seamlessly integrates with MySQL via Sequelize ORM.
+- **Middleware Support**: Includes validators and authenticators for secured and valid request processing.
+- **Error Handling & Logging**: Structured error messages and logging setup (e.g., for debugging and monitoring).
+- **Extensible Design**: Easy to add new services or features with minimal restructuring.
 
-`controllers` —> they are kind Of the last middlewares as post them you call you business layer to execute the budiness logic. In controllers we just receive the incoming requests and data and then pass it to the business layer, and once business layer returns an output, we structure the API response in controllers and send the output. 
+## 🔧 Prerequisites
 
-`repositories` -> this folder contains all the logic using which we interact the
-DB by writing queries, the raw queries or ORM queries wilt go here.
+Make sure you have the following installed before setting up the project:
 
-`services` -> contains the buiness logic and interacts with repositories for data
-from the database.
+- **Node.js** (v14 or higher)
+- **MySQL** (or any SQL dialect supported by Sequelize)
 
-`utils`-> contains helper methods, error classes etc.
+### Additional Tools
 
-### Setup the Projects
+- **Git**: For version control and repository management.
+- **Postman or cURL**: To test API endpoints during development.
+- **A code editor like VS Code**: For efficient coding and debugging.
+- **Sequelize CLI**: To manage database migrations and seeders.
+- **Docker (optional)**: For containerized deployment and testing.
 
-- Download this template from github and open it in your favourite text editor.
--Go inside the folder path and exceute the following command:
-  ````
-  npm install 
-  ````
-- In the root directory create a .env file and add the following env variables
-  
-    ```
-      PORT=<port number of your choice>
-    ```
-ex:
-    ```
-      PORT=3000
-    ```
+## 📁 Folder Structure
 
-inside the `src/config` folder create a file aname as config.jason and write the following code:
+Here's how the project is structured under the `src/` directory:
 
 ```
+src/
+│
+├── config/         # Handles third-party configuration (e.g., dotenv, Sequelize, logging)
+├── routes/         # Maps endpoints (URLs) to controllers via Express routers
+├── middlewares/    # Functions that run before controllers (e.g., validation, auth checks)
+├── controllers/    # Request handlers - extract data, call service, return response
+├── repositories/   # Direct DB access logic (raw SQL or ORM queries)
+├── services/       # Main business logic (e.g., pricing calculation, seat availability)
+└── utils/          # Shared utility functions (e.g., error formatting, helpers)
+```
+
+## 🚀 Project Setup
+
+Follow the steps below to set up and run the project locally:
+
+### 1. Clone and Install Dependencies
+
+```bash
+git clone <your_repo_url>
+cd <repo_name>
+npm install
+```
+
+### 2. Create `.env` File
+
+In the root directory, create a `.env` file to store your environment variables:
+
+```env
+PORT=4000
+```
+
+You can choose any port that is free on your system.
+
+### 3. Set Up Database Configuration
+
+Inside `src/config`, create a file named `config.json` and add:
+
+```json
 {
   "development": {
     "username": "root",
@@ -50,7 +82,6 @@ inside the `src/config` folder create a file aname as config.jason and write the
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
-
   "test": {
     "username": "root",
     "password": null,
@@ -58,7 +89,6 @@ inside the `src/config` folder create a file aname as config.jason and write the
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
-
   "production": {
     "username": "root",
     "password": null,
@@ -68,24 +98,54 @@ inside the `src/config` folder create a file aname as config.jason and write the
   }
 }
 ```
-- go inside the `src` folder and execute the following command:
-  ```
-  npx sequelize init
-  ```
--by excecuting above code you will get migrations ande seeders folder along with a congig.json inside the config folder.
 
-- run this below code to create DB startuctures
+✅ Replace `username`, `password`, and `database` fields as per your local or hosted DB setup.
+
+### 4. Initialize Sequelize
+
+This sets up Sequelize folders and config files:
+
+```bash
+npx sequelize init
 ```
- npx sequelize db:migrate
- ```
- - If you; re setting up your development environment,then write the username of your db, password Of your db and in dialect mention whatever db you are using 
-for ex: mysql, mariadb etc.
 
--If you're setting up test or prod environment, make sure you also replace the host with the hosted db url.
+You’ll now see:
 
-- To run the server execute
+- `migrations/`
+- `seeders/`
+- Updated `config/config.json`
+
+### 5. Run Database Migrations
+
+Apply the DB schema by running:
+
+```bash
+npx sequelize db:migrate
 ```
+
+### 6. Start the Server
+
+Launch the backend service:
+
+```bash
 npm run dev
 ```
 
+You should see:
 
+```bash
+Server started at PORT 4000
+```
+
+Visit `http://localhost:4000` (or your selected port) to start using the API.
+
+---
+
+Let me know if you want this as a downloadable `.md` file, or if you'd like to add:
+
+- API documentation with Swagger/Postman
+- Sample API responses
+- Authentication flow details
+- Contribution guidelines
+
+I'm happy to help you make it more production-ready!
