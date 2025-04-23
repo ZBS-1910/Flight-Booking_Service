@@ -74,7 +74,11 @@ inside the `src/config` folder create a file aname as config.jason and write the
   ```
 -by excecuting above code you will get migrations ande seeders folder along with a congig.json inside the config folder.
 
-- If you; re setting up your development environment,then write the username of your db, password Of your db and in dialect mention whatever db you are using 
+- run this below code to create DB startuctures
+```
+ npx sequelize db:migrate
+ ```
+ - If you; re setting up your development environment,then write the username of your db, password Of your db and in dialect mention whatever db you are using 
 for ex: mysql, mariadb etc.
 
 -If you're setting up test or prod environment, make sure you also replace the host with the hosted db url.
@@ -83,3 +87,5 @@ for ex: mysql, mariadb etc.
 ```
 npm run dev
 ```
+
+
