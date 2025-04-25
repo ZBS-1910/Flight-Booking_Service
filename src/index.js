@@ -1,15 +1,16 @@
-
 const express = require('express');
+const { ServerConfig } = require('./config');  // Use ServerConfig for PORT
+const apiroutes = require('./routes');
+const logger = require('./config/logger-config');  // Use logger for logging
 
-const{ ServerConfig , Logger } = require('./config');
-
-const apiroutes=require('./routes');
-const logger = require('./config/logger-config');
 const app = express();
 
-app.use('/api',apiroutes);
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.listen(ServerConfig.PORT,()=>{
-    console.log(`Server is Up and running on port ${ServerConfig.PORT}`);
-    logger.info("Succefully started the server",{});
+app.use('/api', apiroutes);
+
+app.listen(ServerConfig.PORT, () => {
+    console.log(`Server is up and running on port ${ServerConfig.PORT}`);
+    logger.info(`Successfully started the server on port ${ServerConfig.PORT}`);
 });

@@ -1,3 +1,50 @@
-    module.exports = {
+const { StatusCodes } = require("http-status-codes");
+const { BookingService } = require("../services"); // Importing BookingService
+const { SuccessResponse, ErrorResponse } = require("../utils/common");
 
+async function createBooking(req, res) {
+  console.log("Request Body:", req.body);  // Check what data is being sent
+
+    try {
+        const response = await BookingService.createBooking({
+            flightId: req.body.flightId,
+            userID: req.body.userID,
+            onOfSeats: req.body.onOfSeats
+            
+        });
+        SuccessResponse.data = response;
+        return res
+                .status(StatusCodes.OK)
+                .json(SuccessResponse);
+    } catch(error) {
+        ErrorResponse.error = error;
+        return res
+                .status(StatusCodes.INTERNAL_SERVER_ERROR)
+                .json(ErrorResponse);
     }
+}
+
+
+async function makePayment(req, res) {
+  try {
+      const response = await BookingService.makePayment({
+          totalCost: req.body.totalCost,
+          userID: req.body.userIG,
+          bookingId: req.body.bookingId
+      });
+      SuccessResponse.data = response;
+      return res
+              .status(StatusCodes.OK)
+              .json(SuccessResponse);
+  }catch(error){
+    ErrorResponse.error = error;
+    return res
+            .status(StatusCodes.INTERNAL_SERVER_ERROR)
+            .json(ErrorResponse);
+}
+  
+}
+module.exports = {
+  createBooking,
+  makePayment
+};
