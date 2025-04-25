@@ -34,7 +34,7 @@ module.exports = {
         defaultValue:1
 
       },
-      totalCoat: {
+      totalCost: {
         type: Sequelize.INTEGER,
         allowNull:false 
 

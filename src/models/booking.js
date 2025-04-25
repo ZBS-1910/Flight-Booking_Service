@@ -35,8 +35,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull:false,
       defaultValue:1
     },
-    totalCoat:{ 
-      type:DataTypes.INTEGER,
+    totalCost:{ 
+      type:DataTypes.FLOAT,
       allowNull:false
     }
   }, {
