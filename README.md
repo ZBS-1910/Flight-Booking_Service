@@ -82,8 +82,8 @@ Inside `src/config`, create a file named `config.json` and add:
 {
   "development": {
     "username": "root",
-    "password": null,// mySQL_password
-    "database": "database_development",//mySQL_DB_NAME
+    "password": null, //mySQL_password
+    "database": "database_development", //mySQL_DB_NAME
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
@@ -111,6 +111,7 @@ Inside `src/config`, create a file named `config.json` and add:
 This sets up Sequelize folders and config files:
 
 ```bash
+cd src
 npx sequelize init
 ```
 
