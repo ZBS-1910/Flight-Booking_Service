@@ -6,7 +6,7 @@ const AppError = require("../utils/errors/app-error");
 const { StatusCodes } = require("http-status-codes");
 const bookingRepository = new BookingRepository();
 const {Enums}= require('../utils/common');
-const {BOOKED}=Enums.BOOKING_STATUS
+const {BOOKED,CANCELLED}=Enums.BOOKING_STATUS
 
 
 
@@ -42,29 +42,43 @@ async function createBooking(data) {
     throw error;
   }
 }
+async function makePayment(data) {
+  const transaction = await db.sequelize.transaction();
+  try {
+      const bookingDetails = await bookingRepository.get(data.bookingId, transaction);
+      if(bookingDetails.status == CANCELLED) {
+          throw new AppError('The booking has expired', StatusCodes.BAD_REQUEST);
+      }
+      //console.log(bookingDetails);
+      const bookingTime = new Date(bookingDetails.createdAt);
+      const currentTime = new Date();
+      console.log("Current Time:", currentTime);
+      console.log("Booking Time:", bookingTime);
+      console.log("Time Difference:", currentTime - bookingTime);
+      if(currentTime - bookingTime > 300000) {
+          await bookingRepository.update(data.bookingId, {status: CANCELLED}, transaction);
+          await transaction.commit();
+          throw new AppError('The booking has expired', StatusCodes.BAD_REQUEST);
 
-
-async function makePayment(data){
-  const transaction=await db.sequelize.transaction();
-  try{
-    const bookingDetails=await bookingRepository.get(data.bookingId,transaction)
-    if(bookingDetails.totalCost != data.totalCost){
-      throw new AppError(`The Amount of the payment doesn't match,${StatusCodes.BAD_REQUEST}`)
+      }
+      if(bookingDetails.totalCost != data.totalCost) {
+          throw new AppError('The amount of the payment doesnt match', StatusCodes.BAD_REQUEST);
+      }
+      if(bookingDetails.userId != data.userId) {
+          throw new AppError('The user corresponding to the booking doesnt match', StatusCodes.BAD_REQUEST);
+      }
+      // we assume here that payment is successful
+       await bookingRepository.update(data.bookingId, {status: BOOKED}, transaction);
+      await transaction.commit();
+  } catch(error) {
+    if (!transaction.finished) { // Only rollback if not already committed
+        await transaction.rollback();
     }
-    if(bookingDetails.userID != data.userID){
-      throw new AppError(`The user corresponding to the booking doesn't match,${StatusCodes.BAD_REQUEST}`)
-    }
-    //we assume the payment is succesfull
-     const response= await bookingRepository.update(data.bookingId,{status:BOOKED},transaction);
-     await transaction.commit();
-     return response;
-  }catch(error){
-    console.log("Error",error)
-    await transaction.rollback();
     throw error;
-
-  }
 }
+
+}
+
 module.exports = {
   createBooking,
   makePayment
