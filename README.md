@@ -111,6 +111,7 @@ Inside `src/config`, create a file named `config.json` and add:
 This sets up Sequelize folders and config files:
 
 ```bash
+cd ./src
 npx sequelize init
 ```
 
