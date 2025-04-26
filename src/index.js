@@ -7,7 +7,7 @@ const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.use('/bookingService/api', apiroutes);
 app.use('/api', apiroutes);
 
 app.listen(ServerConfig.PORT, () => {
