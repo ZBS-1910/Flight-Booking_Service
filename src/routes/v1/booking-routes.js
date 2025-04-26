@@ -2,11 +2,14 @@ const express = require("express");
 const router = express.Router();
 
 const { BookingController } = require("../../controllers");
+const {BookingMiddleware} =require('../../middlewares')
 
-router.post("/",
+router.post('/',
+        BookingMiddleware.validateCreateBooking,
          BookingController.createBooking);
 
-// router.post("/payments",
-//          BookingController.makePayment);
+router.post('/payments',
+        BookingMiddleware.validateBookingPayment,
+         BookingController.makePayment);
 
 module.exports = router;
