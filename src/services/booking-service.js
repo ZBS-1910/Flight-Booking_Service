@@ -1,7 +1,7 @@
 const axios = require("axios");
 const { BookingRepository } = require("../repositories");
 const db = require("../models");
-const { ServerConfig } = require("../config");
+const { ServerConfig ,Queue} = require("../config");
 const AppError = require("../utils/errors/app-error");
 const { StatusCodes } = require("http-status-codes");
 const bookingRepository = new BookingRepository();
@@ -72,8 +72,12 @@ async function makePayment(data) {
           throw new AppError('The user corresponding to the booking doesnt match', StatusCodes.BAD_REQUEST);
       }
       // we assume here that payment is successful
-       await bookingRepository.update(data.bookingId, {status: BOOKED}, transaction);
-      await transaction.commit();
+      await bookingRepository.update(data.bookingId, {status: BOOKED}, transaction);
+      Queue.sendData({
+          recepientEmail: 'cs191297@gmail.com',
+          subject: 'Flight booked',
+          text: `Booking successfully done for the booking ${data.bookingId}`
+      });      await transaction.commit();
   } catch(error) {
     //if (!transaction.finished) { // Only rollback if not already committed
         await transaction.rollback();
