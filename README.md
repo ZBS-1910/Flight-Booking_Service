@@ -1,13 +1,13 @@
 
-## 🛫 Flight Booking Service
+##  Flight Booking Service
 
 
-## 🚀 Overview
+##  Overview
 
 The Flight Booking Service is a microservice responsible for handling all flight reservation operations in our airline management system. It provides a secure, scalable, and efficient way to manage flight bookings, passenger information, and payment processing.
 
 
-## 🚀 Project Setup
+##  Project Setup
 
 Follow the steps below to set up and run the project locally:
 
